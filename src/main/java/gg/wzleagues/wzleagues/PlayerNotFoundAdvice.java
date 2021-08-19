@@ -11,7 +11,7 @@ class PlayerNotFoundAdvice {
     @ResponseBody
     @ExceptionHandler(PlayerNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(PlayerNotFoundException ex) {
+    String playerNotFoundHandler(PlayerNotFoundException ex) {
         return ex.getMessage();
     }
 }
