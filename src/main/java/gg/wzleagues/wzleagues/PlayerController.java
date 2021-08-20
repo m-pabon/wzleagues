@@ -1,7 +1,13 @@
 package gg.wzleagues.wzleagues;
 
-import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,15 +21,23 @@ public class PlayerController {
 
     private final PlayerRepository repository;
 
-    PlayerController(PlayerRepository repository) {
+    private final PlayerModelAssembler assembler;
+
+    PlayerController(PlayerRepository repository, PlayerModelAssembler assembler) {
         this.repository = repository;
+        this.assembler = assembler;
     }
 
     // Aggregate root
     // tag::get-aggregate-root[]
     @GetMapping("/players")
-    List<Player> all() {
-        return repository.findAll();
+    CollectionModel<EntityModel<Player>> all() {
+
+        List<EntityModel<Player>> players = repository.findAll().stream() //
+                .map(assembler::toModel) //
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(players, linkTo(methodOn(PlayerController.class).all()).withSelfRel());
     }
 
     @PostMapping("/players")
@@ -34,10 +48,12 @@ public class PlayerController {
     // Single item
 
     @GetMapping("/players/{id}")
-    Player one(@PathVariable Long id) {
+    EntityModel<Player> one(@PathVariable Long id) {
 
-        return repository.findById(id)
+        Player player = repository.findById(id) //
                 .orElseThrow(() -> new PlayerNotFoundException(id));
+
+        return assembler.toModel(player);
     }
 
     @PutMapping("/players/{id}")
