@@ -5,18 +5,20 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "PLAYER")
 class Player {
     private @Id @GeneratedValue Long id;
     private String name;
     private String email;
     private String activisionId;
-    private String rank;
+    private Rank rank;
 
     Player() {}
 
-    Player(String name, String email, String activisionId, String rank) {
+    Player(String name, String email, String activisionId, Rank rank) {
         this.name = name;
         this.email = email;
         this.activisionId = activisionId;
@@ -39,7 +41,7 @@ class Player {
         return this.activisionId;
     }
 
-    public String getRank(){
+    public Rank getRank(){
         return this.rank;
     }
 
@@ -51,17 +53,13 @@ class Player {
         this.name = name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public void setActivisionId(String activisionId) {
         this.activisionId = activisionId;
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
+    public void setRank(Rank rank) { this.rank = rank; }
 
     @Override
     public boolean equals(Object o) {

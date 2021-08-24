@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.mediatype.problem.Problem;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +49,7 @@ public class PlayerController {
     @PostMapping("/players")
     ResponseEntity<?> newPlayer(@RequestBody Player newPlayer) {
 
+        newPlayer.setRank(Rank.BRONZE);
         EntityModel<Player> entityModel = assembler.toModel(repository.save(newPlayer));
 
         return ResponseEntity //
@@ -92,5 +97,61 @@ public class PlayerController {
         repository.deleteById(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/players/{id}/promote")
+    ResponseEntity<?> promote(@PathVariable Long id) {
+
+        Player player = repository.findById(id) //
+                .orElseThrow(() -> new PlayerNotFoundException(id));
+
+        if (player.getRank() == Rank.BRONZE) {
+            player.setRank(Rank.SILVER);
+            return ResponseEntity.ok(assembler.toModel(repository.save(player)));
+        }
+        else if(player.getRank() == Rank.SILVER){
+            player.setRank(Rank.GOLD);
+            return ResponseEntity.ok(assembler.toModel(repository.save(player)));
+        }
+        else if(player.getRank() == Rank.GOLD){
+            player.setRank(Rank.DIAMOND);
+            return ResponseEntity.ok(assembler.toModel(repository.save(player)));
+        }
+        else{
+            return ResponseEntity //
+                    .status(HttpStatus.METHOD_NOT_ALLOWED) //
+                    .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
+                    .body(Problem.create() //
+                            .withTitle("Method not allowed") //
+                            .withDetail("You can't promote a player that is " + player.getRank() + " rank"));
+        }
+    }
+
+    @PutMapping("/players/{id}/demote")
+    ResponseEntity<?> demote(@PathVariable Long id) {
+
+        Player player = repository.findById(id) //
+                .orElseThrow(() -> new PlayerNotFoundException(id));
+
+        if (player.getRank() == Rank.SILVER) {
+            player.setRank(Rank.BRONZE);
+            return ResponseEntity.ok(assembler.toModel(repository.save(player)));
+        }
+        else if(player.getRank() == Rank.GOLD){
+            player.setRank(Rank.SILVER);
+            return ResponseEntity.ok(assembler.toModel(repository.save(player)));
+        }
+        else if(player.getRank() == Rank.DIAMOND){
+            player.setRank(Rank.GOLD);
+            return ResponseEntity.ok(assembler.toModel(repository.save(player)));
+        }
+        else{
+            return ResponseEntity //
+                    .status(HttpStatus.METHOD_NOT_ALLOWED) //
+                    .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
+                    .body(Problem.create() //
+                            .withTitle("Method not allowed") //
+                            .withDetail("You can't demote a player that is " + player.getRank() + " rank"));
+        }
     }
 }

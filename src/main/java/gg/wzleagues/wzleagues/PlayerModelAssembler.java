@@ -12,8 +12,16 @@ class PlayerModelAssembler implements RepresentationModelAssembler<Player, Entit
     @Override
     public EntityModel<Player> toModel(Player player) {
 
-        return EntityModel.of(player, //
+        EntityModel<Player> playerModel = EntityModel.of(player, //
                 linkTo(methodOn(PlayerController.class).one(player.getId())).withSelfRel(),
                 linkTo(methodOn(PlayerController.class).all()).withRel("players"));
+
+        if(player.getRank() == Rank.BRONZE || player.getRank() == Rank.SILVER || player.getRank() == Rank.GOLD){
+            playerModel.add(linkTo(methodOn(PlayerController.class).promote(player.getId())).withRel("promote"));
+        }
+        if(player.getRank() == Rank.SILVER || player.getRank() == Rank.GOLD || player.getRank() == Rank.DIAMOND){
+            playerModel.add(linkTo(methodOn(PlayerController.class).demote(player.getId())).withRel("demote"));
+        }
+        return playerModel;
     }
 }
