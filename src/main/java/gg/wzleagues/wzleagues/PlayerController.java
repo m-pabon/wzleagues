@@ -6,6 +6,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -36,6 +41,12 @@ public class PlayerController {
 
     // Aggregate root
     // tag::get-aggregate-root[]
+    @Operation(summary = "Get all players")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) })
+    })
     @GetMapping("/players")
     CollectionModel<EntityModel<Player>> all() {
 
@@ -46,6 +57,12 @@ public class PlayerController {
         return CollectionModel.of(players, linkTo(methodOn(PlayerController.class).all()).withSelfRel());
     }
 
+    @Operation(summary = "Create a new player")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) })
+    })
     @PostMapping("/players")
     ResponseEntity<?> newPlayer(@RequestBody Player newPlayer) {
 
@@ -58,7 +75,15 @@ public class PlayerController {
     }
 
     // Single item
-
+    @Operation(summary = "Get a player by their id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found player",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Player not found",
+                    content = @Content) })
     @GetMapping("/players/{id}")
     EntityModel<Player> one(@PathVariable Long id) {
 
@@ -68,6 +93,15 @@ public class PlayerController {
         return assembler.toModel(player);
     }
 
+    @Operation(summary = "Update a player using their id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Player updated",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Player not found",
+                    content = @Content) })
     @PutMapping("/players/{id}")
     ResponseEntity<?> replacePlayer(@RequestBody Player newPlayer, @PathVariable Long id) {
 
@@ -91,6 +125,15 @@ public class PlayerController {
                 .body(entityModel);
     }
 
+    @Operation(summary = "Delete a player by their id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Player not found",
+                    content = @Content) })
     @DeleteMapping("/players/{id}")
     ResponseEntity<?> deletePlayer(@PathVariable Long id) {
 
@@ -99,6 +142,15 @@ public class PlayerController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Promote a player's rank by one")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Player not found",
+                    content = @Content) })
     @PutMapping("/players/{id}/promote")
     ResponseEntity<?> promote(@PathVariable Long id) {
 
@@ -127,6 +179,15 @@ public class PlayerController {
         }
     }
 
+    @Operation(summary = "Demote a player's rank by one")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Player not found",
+                    content = @Content) })
     @PutMapping("/players/{id}/demote")
     ResponseEntity<?> demote(@PathVariable Long id) {
 
