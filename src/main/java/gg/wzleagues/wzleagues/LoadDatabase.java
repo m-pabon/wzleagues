@@ -30,7 +30,7 @@ public class LoadDatabase {
             System.out.println();
 
             // fetch an individual player
-            System.out.println("Players found with findByFirstName('Michael Pabon'):");
+            System.out.println("Players found with findByName('Michael Pabon'):");
             System.out.println("--------------------------------");
             System.out.println(repository.findByName("Michael Pabon"));
         };

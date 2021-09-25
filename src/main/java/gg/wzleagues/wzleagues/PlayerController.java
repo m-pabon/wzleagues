@@ -105,34 +105,19 @@ public class PlayerController {
     @PutMapping("/players/{id}")
     ResponseEntity<?> replacePlayer(@RequestBody Player newPlayer, @PathVariable String id) {
 
-        Player updatedPlayer = repository.findById(id); //
+        Player updatedPlayer = repository.findById(id);
+        if(updatedPlayer != null){
+            updatedPlayer.setName(newPlayer.getName());
+            updatedPlayer.setEmail(newPlayer.getEmail());
+            updatedPlayer.setActivisionId(newPlayer.getActivisionId());
+            updatedPlayer.setRank(newPlayer.getRank());
+        }
+        else{
+            newPlayer.setId(id);
+            updatedPlayer = newPlayer;
+        }
 
-                if(updatedPlayer != null){
-                    Player player = new Player();
-                    player.setName(newPlayer.getName());
-                    player.setEmail(newPlayer.getEmail());
-                    player.setActivisionId(newPlayer.getActivisionId());
-                    player.setRank(newPlayer.getRank());
-                    repository.save(player);
-                }
-                else{
-                    newPlayer.setId(id);
-                    repository.save(newPlayer);
-                }
-
-//                .map(player -> {
-//                    player.setName(newPlayer.getName());
-//                    player.setEmail(newPlayer.getEmail());
-//                    player.setActivisionId(newPlayer.getActivisionId());
-//                    player.setRank(newPlayer.getRank());
-//                    return repository.save(player);
-//                }) //
-//                .orElseGet(() -> {
-//                    newPlayer.setId(id);
-//                    return repository.save(newPlayer);
-//                });
-
-        assert updatedPlayer != null;
+        repository.save(updatedPlayer);
         EntityModel<Player> entityModel = assembler.toModel(updatedPlayer);
 
         return ResponseEntity //
