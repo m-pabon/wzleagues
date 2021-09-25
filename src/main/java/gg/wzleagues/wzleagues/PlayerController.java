@@ -85,10 +85,10 @@ public class PlayerController {
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @GetMapping("/players/{id}")
-    EntityModel<Player> one(@PathVariable Long id) {
+    EntityModel<Player> one(@PathVariable String id) {
 
-        Player player = repository.findById(id) //
-                .orElseThrow(() -> new PlayerNotFoundException(id));
+        Player player = repository.findById(id); //
+//                .orElseThrow(() -> new PlayerNotFoundException(id));
 
         return assembler.toModel(player);
     }
@@ -103,21 +103,36 @@ public class PlayerController {
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @PutMapping("/players/{id}")
-    ResponseEntity<?> replacePlayer(@RequestBody Player newPlayer, @PathVariable Long id) {
+    ResponseEntity<?> replacePlayer(@RequestBody Player newPlayer, @PathVariable String id) {
 
-        Player updatedPlayer = repository.findById(id) //
-                .map(player -> {
+        Player updatedPlayer = repository.findById(id); //
+
+                if(updatedPlayer != null){
+                    Player player = new Player();
                     player.setName(newPlayer.getName());
                     player.setEmail(newPlayer.getEmail());
                     player.setActivisionId(newPlayer.getActivisionId());
                     player.setRank(newPlayer.getRank());
-                    return repository.save(player);
-                }) //
-                .orElseGet(() -> {
+                    repository.save(player);
+                }
+                else{
                     newPlayer.setId(id);
-                    return repository.save(newPlayer);
-                });
+                    repository.save(newPlayer);
+                }
 
+//                .map(player -> {
+//                    player.setName(newPlayer.getName());
+//                    player.setEmail(newPlayer.getEmail());
+//                    player.setActivisionId(newPlayer.getActivisionId());
+//                    player.setRank(newPlayer.getRank());
+//                    return repository.save(player);
+//                }) //
+//                .orElseGet(() -> {
+//                    newPlayer.setId(id);
+//                    return repository.save(newPlayer);
+//                });
+
+        assert updatedPlayer != null;
         EntityModel<Player> entityModel = assembler.toModel(updatedPlayer);
 
         return ResponseEntity //
@@ -135,7 +150,7 @@ public class PlayerController {
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @DeleteMapping("/players/{id}")
-    ResponseEntity<?> deletePlayer(@PathVariable Long id) {
+    ResponseEntity<?> deletePlayer(@PathVariable String id) {
 
         repository.deleteById(id);
 
@@ -152,10 +167,10 @@ public class PlayerController {
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @PutMapping("/players/{id}/promote")
-    ResponseEntity<?> promote(@PathVariable Long id) {
+    ResponseEntity<?> promote(@PathVariable String id) {
 
-        Player player = repository.findById(id) //
-                .orElseThrow(() -> new PlayerNotFoundException(id));
+        Player player = repository.findById(id); //
+//                .orElseThrow(() -> new PlayerNotFoundException(id));
 
         if (player.getRank() == Rank.BRONZE) {
             player.setRank(Rank.SILVER);
@@ -189,10 +204,10 @@ public class PlayerController {
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @PutMapping("/players/{id}/demote")
-    ResponseEntity<?> demote(@PathVariable Long id) {
+    ResponseEntity<?> demote(@PathVariable String id) {
 
-        Player player = repository.findById(id) //
-                .orElseThrow(() -> new PlayerNotFoundException(id));
+        Player player = repository.findById(id); //
+//                .orElseThrow(() -> new PlayerNotFoundException(id));
 
         if (player.getRank() == Rank.SILVER) {
             player.setRank(Rank.BRONZE);

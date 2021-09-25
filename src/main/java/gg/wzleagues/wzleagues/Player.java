@@ -1,16 +1,12 @@
 package gg.wzleagues.wzleagues;
 
 import java.util.Objects;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "PLAYER")
+@Document
 class Player {
-    private @Id @GeneratedValue Long id;
+    private @Id String id;
     private String name;
     private String email;
     private String activisionId;
@@ -25,7 +21,7 @@ class Player {
         this.rank = rank;
     }
 
-    public Long getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -45,7 +41,7 @@ class Player {
         return this.rank;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
