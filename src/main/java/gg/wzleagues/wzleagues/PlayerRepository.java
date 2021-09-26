@@ -1,7 +1,9 @@
 package gg.wzleagues.wzleagues;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-interface PlayerRepository extends JpaRepository<Player, Long>{
-
+interface PlayerRepository extends MongoRepository<Player, Long> {
+    Player findByName(String name);
+    Player findById(String id);
+    void deleteById(String id);
 }

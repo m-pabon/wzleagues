@@ -1,7 +1,7 @@
 package gg.wzleagues.wzleagues;
 
 class PlayerNotFoundException  extends RuntimeException{
-    PlayerNotFoundException(Long id){
+    PlayerNotFoundException(String id){
         super("Could not find player " + id);
     }
 }
