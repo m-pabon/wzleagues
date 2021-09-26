@@ -43,9 +43,9 @@ public class PlayerController {
     // tag::get-aggregate-root[]
     @Operation(summary = "Get all players")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Player.class)) })
+        @ApiResponse(responseCode = "200", description = "Success",
+                content = { @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Player.class)) })
     })
     @GetMapping("/players")
     CollectionModel<EntityModel<Player>> all() {
@@ -59,9 +59,9 @@ public class PlayerController {
 
     @Operation(summary = "Create a new player")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Player.class)) })
+        @ApiResponse(responseCode = "200", description = "Success",
+                content = { @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Player.class)) })
     })
     @PostMapping("/players")
     ResponseEntity<?> newPlayer(@RequestBody Player newPlayer) {
@@ -74,52 +74,43 @@ public class PlayerController {
                 .body(entityModel);
     }
 
-    // Single item
+    // Single player
     @Operation(summary = "Get a player by their id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found player",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Player.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "Player not found",
-                    content = @Content) })
+        @ApiResponse(responseCode = "200", description = "Found player",
+                content = { @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Player.class)) }),
+        @ApiResponse(responseCode = "404", description = "Player not found",
+                content = @Content) })
     @GetMapping("/players/{id}")
     EntityModel<Player> one(@PathVariable String id) {
-
-        Player player = repository.findById(id); //
-//                .orElseThrow(() -> new PlayerNotFoundException(id));
-
+        Player player = repository.findById(id);
+        if (player == null)
+            throw new PlayerNotFoundException(id);
         return assembler.toModel(player);
     }
 
     @Operation(summary = "Update a player using their id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Player updated",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Player.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "Player not found",
-                    content = @Content) })
+        @ApiResponse(responseCode = "200", description = "Player updated",
+                content = { @Content(mediaType = "application/json",
+                        schema = @Schema(implementation = Player.class)) }),
+        @ApiResponse(responseCode = "404", description = "Player not found",
+                content = @Content) })
     @PutMapping("/players/{id}")
     ResponseEntity<?> replacePlayer(@RequestBody Player newPlayer, @PathVariable String id) {
 
         Player updatedPlayer = repository.findById(id);
-        if(updatedPlayer != null){
+        if(updatedPlayer == null)
+            throw new PlayerNotFoundException(id);
+        else{
             updatedPlayer.setName(newPlayer.getName());
             updatedPlayer.setEmail(newPlayer.getEmail());
             updatedPlayer.setActivisionId(newPlayer.getActivisionId());
             updatedPlayer.setRank(newPlayer.getRank());
+            repository.save(updatedPlayer);
         }
-        else{
-            newPlayer.setId(id);
-            updatedPlayer = newPlayer;
-        }
-
-        repository.save(updatedPlayer);
         EntityModel<Player> entityModel = assembler.toModel(updatedPlayer);
-
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
                 .body(entityModel);
@@ -130,16 +121,17 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Player.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id",
-                    content = @Content),
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @DeleteMapping("/players/{id}")
     ResponseEntity<?> deletePlayer(@PathVariable String id) {
 
-        repository.deleteById(id);
+        if(repository.findById(id) == null)
+            throw new PlayerNotFoundException(id);
+        else
+            repository.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Promote a player's rank by one")
@@ -147,15 +139,14 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Player.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id",
-                    content = @Content),
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @PutMapping("/players/{id}/promote")
     ResponseEntity<?> promote(@PathVariable String id) {
 
-        Player player = repository.findById(id); //
-//                .orElseThrow(() -> new PlayerNotFoundException(id));
+        Player player = repository.findById(id);
+        if(player == null)
+            throw new PlayerNotFoundException(id);
 
         if (player.getRank() == Rank.BRONZE) {
             player.setRank(Rank.SILVER);
@@ -184,15 +175,14 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Success",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Player.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id",
-                    content = @Content),
             @ApiResponse(responseCode = "404", description = "Player not found",
                     content = @Content) })
     @PutMapping("/players/{id}/demote")
     ResponseEntity<?> demote(@PathVariable String id) {
 
-        Player player = repository.findById(id); //
-//                .orElseThrow(() -> new PlayerNotFoundException(id));
+        Player player = repository.findById(id);
+        if(player == null)
+            throw new PlayerNotFoundException(id);
 
         if (player.getRank() == Rank.SILVER) {
             player.setRank(Rank.BRONZE);
