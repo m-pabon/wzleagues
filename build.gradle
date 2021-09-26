@@ -35,3 +35,8 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+bootBuildImage {
+	environment = ["APP_ENCRYPTION_PASSWORD" : System.getenv('APP_ENCRYPTION_PASSWORD')]
+}
+

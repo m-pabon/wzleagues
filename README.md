@@ -1,4 +1,4 @@
-# wzleagues
+# Wz Leagues
 
 ## Setup
 
@@ -10,10 +10,10 @@ You need to set the following environment variables with their correct values in
 ## Build Commands
 
 ### Gradle Local Build
-`./gradlew build`
+`APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew clean build`
 
 ### Gradle Local Build + Run
-`./gradlew bootRun`
+`APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew bootRun`
 
 ### Run just the jar
 `java -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar`
@@ -43,10 +43,13 @@ java -Djarmode=layertools -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar extract -
 [https://hub.docker.com/repository/docker/mpabon/wzleagues/general](https://hub.docker.com/repository/docker/mpabon/wzleagues/general)
 
 ### Build Docker Image
-`docker build -t mpabon/wzleagues .`
+`docker build --build-arg KEY=$APP_ENCRYPTION_PASSWORD -t mpabon/wzleagues .`
 
 ### Run Docker Container
-`$ docker run -p 8080:8080 mpabon/wzleagues`
+`docker run -p 8080:8080 mpabon/wzleagues`
+
+### Push Docker Image
+`docker push mpabon/wzleagues:<tag>`
 
 
 ### Run ash shell inside container
@@ -54,6 +57,7 @@ java -Djarmode=layertools -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar extract -
 `docker exec -ti <container name> /bin/sh`
 
 ### Build image using Spring Boot docker plugin (instead of custom DOCKERFILE)
+Currently get this working because I can't figure out how to set runtime environment varibales in a cloud native buildpack <br/>
 `./gradlew bootBuildImage --imageName=mpabon/wzleagues`
 
 ## Jasypt Encryption
