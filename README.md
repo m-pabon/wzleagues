@@ -1,5 +1,12 @@
 # wzleagues
 
+## Setup
+
+### Environment Variables
+You need to set the following environment variables with their correct values in order to run the project
+
+- `APP_ENCRYPTION_PASSWORD`
+
 ## Build Commands
 
 ### Gradle Local Build
@@ -12,6 +19,9 @@
 `java -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar`
 
 ## Documentation
+
+### Github Pages
+[http://m-pabon.github.io/wzleagues](http://m-pabon.github.io/wzleagues)
 
 ### OpenAPI JSON spec
 [http://localhost:8080/v3/api-docs/](http://localhost:8080/v3/api-docs/)
@@ -45,3 +55,12 @@ java -Djarmode=layertools -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar extract -
 
 ### Build image using Spring Boot docker plugin (instead of custom DOCKERFILE)
 `./gradlew bootBuildImage --imageName=mpabon/wzleagues`
+
+## Jasypt Encryption
+This project uses jasypt encryption to store credentials safely. To encrypt a value download the sources from the jasypt
+repo and use the `encrypt.sh` script. You can store the encrypted value in the `resources/encrypted.properties` file.
+
+Example usages:<br/>
+`chmod +x encrypt.sh decrypt.sh` <br/>
+`./encrypt.sh input=<value to encrypt> password=<encryption key>`<br/>
+`./decrypt.sh input=<value to decrypt> password=<encryption key>`
