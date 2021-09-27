@@ -32,6 +32,7 @@ jobs:
               push: true
               tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wzleagues:latest
               build-args: KEY=${{ secrets.APP_ENCRYPTION_PASSWORD }}
+              no-cache: true
 
           - name: Image digest
             run: echo ${{ steps.docker_build.outputs.digest }}
