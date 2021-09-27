@@ -43,7 +43,7 @@ java -Djarmode=layertools -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar extract -
 [https://hub.docker.com/repository/docker/mpabon/wzleagues/general](https://hub.docker.com/repository/docker/mpabon/wzleagues/general)
 
 ### Build Docker Image
-`docker build --build-arg KEY=$APP_ENCRYPTION_PASSWORD -t mpabon/wzleagues .`
+`docker build --build-arg KEY=$APP_ENCRYPTION_PASSWORD -t wzleagues .`
 
 ### Run Docker Container
 `docker run -p 8080:8080 mpabon/wzleagues`
