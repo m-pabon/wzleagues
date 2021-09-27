@@ -20,7 +20,7 @@ jobs:
               password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               repository: ${{ secrets.DOCKER_HUB_USERNAME }}/wzleagues
               tags: latest
-              build-args: KEY=${{ secrets.APP_ENCRYPTION_PASSWORD }}
+              build_args: KEY=${{ secrets.APP_ENCRYPTION_PASSWORD }}
 
           - name: Image digest
             run: echo ${{ steps.docker_build.outputs.digest }}
