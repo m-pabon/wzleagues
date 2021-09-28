@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.3
 ARG KEY=key
 
 FROM gradle:jdk11 as build
@@ -5,10 +6,11 @@ ARG KEY
 ENV APP_ENCRYPTION_PASSWORD=$KEY
 WORKDIR /workspace/app
 COPY . /workspace/app
-RUN APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew clean build
-ARG JAR_FILE=build/libs/wzleagues-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} target/application.jar
-RUN java -Djarmode=layertools -jar target/application.jar extract --destination target/extracted
+RUN --mount=type=cache,target=/root/.gradle APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew clean build
+RUN mkdir -p target/extracted
+ARG JAR_FILE=wzleagues-0.0.1-SNAPSHOT.jar
+RUN cp build/libs/${JAR_FILE} target/${JAR_FILE}
+RUN java -Djarmode=layertools -jar target/${JAR_FILE} extract --destination target/extracted
 
 FROM openjdk:11-jre-slim
 ARG KEY
