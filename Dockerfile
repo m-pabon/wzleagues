@@ -4,8 +4,17 @@ ARG KEY=key
 FROM gradle:jdk11 as build
 ARG KEY
 ENV APP_ENCRYPTION_PASSWORD=$KEY
-WORKDIR /workspace/app
-COPY . /workspace/app
+ARG HOME=/workspace/app
+WORKDIR ${HOME}
+
+COPY src ${HOME}/src
+COPY .gradle ${HOME}/.gradle
+COPY gradle ${HOME}/gradle
+COPY gradlew .
+COPY gradlew.bat .
+COPY build.gradle .
+COPY settings.gradle .
+
 RUN --mount=type=cache,target=/root/.gradle APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew clean build
 RUN mkdir -p target/extracted
 ARG JAR_FILE=wzleagues-0.0.1-SNAPSHOT.jar
