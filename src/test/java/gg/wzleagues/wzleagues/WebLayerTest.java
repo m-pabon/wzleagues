@@ -27,10 +27,10 @@ public class WebLayerTest {
     @MockBean
     private PlayerModelAssembler assembler;
 
-    @Test
-    public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/players"))
-                .andExpect(status().isOk())
-                .andDo(document("home"));
-    }
+//    @Test
+//    public void shouldReturnDefaultMessage() throws Exception {
+//        this.mockMvc.perform(get("/players"))
+//                .andExpect(status().isOk())
+//                .andDo(document("home"));
+//    }
 }
