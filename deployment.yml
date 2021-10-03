@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: wzleagues-app
-        image: docker.io/mpabon/wzleagues:latest
+        image: gcr.io/wzleagues/wzleagues:latest
         ports:
         - containerPort: 8080
         resources:
