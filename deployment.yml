@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: wzleagues-app
-        image: gcr.io/wzleagues/wzleagues:latest
+        image: gcr.io/wzleagues/wzleagues:f9ba370337849c7f0af8d57d6d11b913d820d0df
         ports:
         - containerPort: 8080
         resources:
