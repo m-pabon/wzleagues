@@ -66,11 +66,6 @@ jobs:
       run: |-
         docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
 
-    # Get image digest
-    - name: Digest
-      run: |-
-        docker images --no-trunc --quiet "gcr.io/$PROJECT_ID/$IMAGE"
-
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
