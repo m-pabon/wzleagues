@@ -6,6 +6,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,8 +34,9 @@ public class PlayerController {
         this.assembler = assembler;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     @ResponseBody
+    @Hidden
     public String home() {
         return "Welcome to the WZ Leagues Player API";
     }
