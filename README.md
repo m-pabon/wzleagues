@@ -73,10 +73,6 @@ java -Djarmode=layertools -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar extract -
 `docker run -ti --entrypoint /bin/sh mpabon/wzleagues` <br/>
 `docker exec -ti <container name> /bin/sh`
 
-### Build image using Spring Boot docker plugin (instead of custom DOCKERFILE)
-Currently get this working because I can't figure out how to set runtime environment varibales in a cloud native buildpack <br/>
-`./gradlew bootBuildImage --imageName=mpabon/wzleagues`
-
 ## Jasypt Encryption
 This project uses jasypt encryption to store credentials safely. To encrypt a value download the sources from the jasypt
 repo and use the `encrypt.sh` script. You can store the encrypted value in the `resources/encrypted.properties` file.
