@@ -14,5 +14,5 @@ pkg/
 release/wi-kubernetes-manifests.yaml
 gradlew
 gradlew.bat
-.gradle
-gradle
+.gradle/
+gradle/
