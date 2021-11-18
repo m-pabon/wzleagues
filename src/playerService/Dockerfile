@@ -7,7 +7,7 @@ ENV APP_ENCRYPTION_PASSWORD=$KEY
 ARG HOME=/workspace/app
 WORKDIR ${HOME}
 
-COPY src ${HOME}/src
+COPY .. ${HOME}/src
 COPY gradle ${HOME}/gradle
 COPY gradlew .
 COPY gradlew.bat .
