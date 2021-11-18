@@ -7,7 +7,7 @@ ENV APP_ENCRYPTION_PASSWORD=$KEY
 ARG HOME=/workspace/app
 WORKDIR ${HOME}
 
-COPY .. ${HOME}/src
+COPY src ${HOME}/src
 COPY gradle ${HOME}/gradle
 COPY gradlew .
 COPY gradlew.bat .
@@ -16,7 +16,7 @@ COPY settings.gradle .
 
 RUN --mount=type=cache,target=/root/.gradle APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew clean build
 RUN mkdir -p target/extracted
-ARG JAR_FILE=wzleagues-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=playerService-0.0.1-SNAPSHOT.jar
 RUN cp build/libs/${JAR_FILE} target/${JAR_FILE}
 RUN java -Djarmode=layertools -jar target/${JAR_FILE} extract --destination target/extracted
 

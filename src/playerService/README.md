@@ -33,7 +33,7 @@ You need to set the following environment variables with their correct values in
 `APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew bootRun`
 
 ### Run just the jar
-`java -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar`
+`java -jar build/libs/playerService-0.0.1-SNAPSHOT.jar`
 
 ## Documentation
 
@@ -49,10 +49,10 @@ You need to set the following environment variables with their correct values in
 ## Useful JAR commands
 
 ### Unpack Jar
-`jar -xf wzleagues-0.0.1-SNAPSHOT.jar`
+`jar -xf playerService-0.0.1-SNAPSHOT.jar`
 
 ### Extract the JAR contents into a directory for each layer
-java -Djarmode=layertools -jar build/libs/wzleagues-0.0.1-SNAPSHOT.jar extract --destination target/extracted
+java -Djarmode=layertools -jar build/libs/playerService-0.0.1-SNAPSHOT.jar extract --destination target/extracted
 
 ## Docker Commands
 
