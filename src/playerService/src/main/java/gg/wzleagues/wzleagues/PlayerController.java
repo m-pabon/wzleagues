@@ -23,6 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(methods = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH,
+        RequestMethod.DELETE, RequestMethod.OPTIONS}, allowCredentials = "true", originPatterns = "*")
 public class PlayerController {
 
     private final PlayerRepository repository;
