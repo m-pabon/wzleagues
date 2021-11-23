@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable();
         http.antMatcher("/**")
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
