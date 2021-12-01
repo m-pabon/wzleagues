@@ -3,7 +3,10 @@ package gg.wzleagues.wzleagues;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import io.swagger.v3.oas.annotations.Hidden;
@@ -12,6 +15,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -59,6 +65,38 @@ public class PlayerController {
                 .collect(Collectors.toList());
 
         return CollectionModel.of(players, linkTo(methodOn(PlayerController.class).all()).withSelfRel());
+    }
+
+    @Operation(summary = "Get all players with Pagination")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class)) })
+    })
+    @GetMapping("/players2")
+    public ResponseEntity<Map<String, Object>> allWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size) {
+
+        try {
+            Pageable paging = PageRequest.of(page, size);
+            Page<Player> pagePlayers;
+            pagePlayers = repository.findAll(paging);
+            List<EntityModel<Player>> players = pagePlayers.getContent().stream()
+                    .map(assembler::toModel)
+                    .collect(Collectors.toList());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("players", players);
+            response.put("currentPage", pagePlayers.getNumber());
+            response.put("totalItems", pagePlayers.getTotalElements());
+            response.put("totalPages", pagePlayers.getTotalPages());
+            response.put("_links", linkTo(methodOn(PlayerController.class).allWithPagination(page,size)).withSelfRel());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Operation(summary = "Create a new player")
