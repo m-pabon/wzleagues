@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'org.asciidoctor.jvm.convert' version '3.3.0'
+	id 'idea'
 }
 
 group = 'gg.wzleagues'
@@ -41,6 +42,3 @@ test {
 bootBuildImage {
 	environment = ["APP_ENCRYPTION_PASSWORD" : System.getenv('APP_ENCRYPTION_PASSWORD')]
 }
-
-
-

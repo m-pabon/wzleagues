@@ -1,0 +1,1 @@
+concurrently "APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew bootRun --no-daemon" "./gradlew start --no-daemon"

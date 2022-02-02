@@ -1,2 +1,4 @@
 rootProject.name = 'wzleagues'
+include 'src'
 include 'src:playerService'
+include 'src:client'
