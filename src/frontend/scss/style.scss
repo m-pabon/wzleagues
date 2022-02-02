@@ -1,16 +1,5 @@
 @import 'config';
 @import 'utilities';
-@import 'form';
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-i {
-  margin: 0.4rem;
-}
 
 body {
   font-family: 'Raleway', 'sans-serif';
@@ -18,43 +7,11 @@ body {
   line-height: 1.6;
   background-color: #fff;
   color: #333;
+  padding-top: 55px;
 }
 
-a {
-  text-decoration: none;
-  color: $primary-color;
-}
-
-ul {
-  list-style: none;
-}
-
-img {
-  width: 100%;
-}
-
-// Navbar
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.7rem 2rem;
-  position: fixed;
-  z-index: 1;
-  width: 100%;
-  top: 0;
-  border-bottom: solid 1px $primary-color;
-  opacity: 0.9;
-
-  ul {
-    display: flex;
-  }
-
   a {
-    color: #fff;
-    padding: 0.45rem;
-    margin: 0 0.25rem;
-
     &:hover {
       color: $primary-color;
     }

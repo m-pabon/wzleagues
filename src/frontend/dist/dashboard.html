@@ -25,25 +25,23 @@
       </ul>
     </div>
   </nav>
-  <div class="container">
-    <h1>
-      Sign Up
-    </h1>
-    <p><i class="fas fa-user"></i>
-    Create an account
-    </p>
-    <form action="#" class="needs-validation">
-      <div class="mb-3 mt-3">
-        <label for="email" class="form-label">Email:</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-      </div>
-      <div class="mb-3">
-        <label for="pwd" class="form-label">Password:</label>
-        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
-      </div>
-      <button type="submit" class="btn btn-success">Submit</button>
-    </form>
+  <div class="container mt-3">
+    <h2>Data</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Activision ID</th>
+          <th>Email</th>
+          <th>Rank</th>
+        </tr>
+      </thead>
+      <tbody id="table">
+      </tbody>
+    </table>
+
+    <button type="button" class="btn btn-success" onclick="refresh_table()">Refresh</button>
   </div>
-  
+  <script src="js/dashboard.js"></script>
 </body>
 </html>
