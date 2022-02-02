@@ -12,41 +12,43 @@
   <title>WZLeagues</title>
 </head>
 <body>
-  <nav class="navbar bg-dark">
-    <h2>
-      <a href="index.html">
-        <i class="fas fa-parachute-box"></i>WZLeagues
-      </a>
-    </h2>
-    <ul>
-      <li><a href="profiles.html">Players</a></li>
-      <li><a href="register.html">Register</a></li>
-      <li><a href="login.html">Login</a></li>
-    </ul>
-  </nav>
-  <section class="container">
-    <!-- Alert -->
-    <div class="alert alert-danger">
-      Invalid Credentials
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="dashboard.html"><i class="fas fa-parachute-box"></i> WZLeagues</a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="login.html">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="register.html">Register</a>
+        </li>
+      </ul>
     </div>
-    <h1 class="large text-primary">
+  </nav>
+  <div class="container">
+    <h1>
       Sign In
     </h1>
-    <p class="lead"><i class="fas fa-user"></i>
+    <p><i class="fas fa-user"></i>
     Sign into your account
     </p>
-    <form action="dashboard.html" class="form">
-      <div class="form-group">
-        <input type="email" placeholder="Email Address">
+    <form action="#" class="needs-validation">
+      <div class="mb-3 mt-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
       </div>
-      <div class="form-group">
-        <input type="password" placeholder="Password" minlength="6">
+      <div class="mb-3">
+        <label for="pwd" class="form-label">Password:</label>
+        <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
       </div>
-      <input type="submit" value="Login" class="btn btn-primary">
+      <div class="form-check mb-3">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" name="remember"> Remember me
+        </label>
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
     </form>
-    <p class="my-1">
-      Don't have an account? <a href="register.html">Sign Up</a>
-    </p>
-  </section>
+  </div>
+  
 </body>
 </html>

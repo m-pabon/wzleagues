@@ -7,6 +7,15 @@
   margin-bottom: 3rem;
 }
 
+.dark-overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
 // Text Styles
 .x-large {
   font-size: 4rem;
@@ -26,31 +35,17 @@
 }
 
 .text-primary {
-  color: $primary-color !important;
+  color: $primary-color;
 }
 
-//Background
-.bg {
-  &-primary {
-    @include set-background($primary-color);
-  }
-  &-light {
-    @include set-background($light-color);
-    border: #ccc 1px solid;
-  }
-  &-dark {
-    @include set-background($dark-color);
-  }
-  &-success {
-    @include set-background($success-color);
-  }
-  &-danger {
-    @include set-background($danger-color);
-  }
-  &-white {
-    @include set-background(#fff);
-    border: #ccc 1px solid;
-  }
+.round-img {
+  border-radius: 50%;
+}
+
+.line {
+  height: 1px;
+  background: #ccc;
+  margin: 1.5rem 0;
 }
 
 // Buttons
@@ -94,17 +89,4 @@
     background: lighten($dark-color, 20%);
     color: #fff;
   }
-}
-
-// Alerts
-.alert {
-}
-
-.dark-overlay {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.7);
 }
