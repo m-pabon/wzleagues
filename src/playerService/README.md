@@ -1,8 +1,5 @@
 # Wz Leagues
 
-## Production location
-[http://35.231.254.57/](http://35.231.254.57/)
-
 ## Tech Stack
 ### Service Development
 - Java
@@ -15,7 +12,6 @@
 ### Deployment
 - Docker + Kubernetes
 - Github Actions for CI/CD
-- GCP GKE Cluster
 
 ## Setup for Local Development
 
