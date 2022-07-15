@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="img/favicon.png">
+  <script src="https://kit.fontawesome.com/09402c4643.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="css/style.min.css">
+  <title>WZLeagues</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="dashboard.html"><i class="fas fa-parachute-box"></i> WZLeagues</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="register.html">Register</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-3">
+    <h2>Players</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Activision ID</th>
+          <th>Email</th>
+          <th>Rank</th>
+          <th></th>
+          <th>
+            <button id='refresh' type="button" class="btn btn-success btn-sm table-button">
+              <i class="fa fa-refresh" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-info btn-sm table-button" data-bs-toggle="modal" data-bs-target="#createModal">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    
+    
+  </div>
+
+  <!-- Edit Player Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Player</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editForm">
+            <div class="mb-3">
+              <label for="editName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="editName" aria-describedby="nameHelp">
+            </div>
+            <div class="mb-3">
+              <label for="editActivisionId" class="form-label">Activision Id</label>
+              <input type="text" class="form-control" id="editActivisionId" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="editEmail" class="form-label">Email</label>
+              <input type="email" class="form-control" id="editEmail">
+            </div>
+            <div class="mb-3">
+              <label for="rank" class="form-label">Rank</label><br>
+              <form id="editRadio">
+                <input type="radio" class="rank-radio" id="editBronzeRadio" name="rank" value="BRONZE">
+                <label for="bronze">BRONZE</label><br>
+                <input type="radio" class="rank-radio" id="editSilverRadio" name="rank" value="SILVER">
+                <label for="silver">SILVER</label><br>
+                <input type="radio" class="rank-radio" id="editGoldRadio" name="rank" value="GOLD">
+                <label for="gold">GOLD</label><br>
+                <input type="radio" class="rank-radio" id="editDiamondRadio" name="rank" value="DIAMOND">
+                <label for="diamond">DIAMOND</label>
+              </form>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" id="confirmEdit" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Create Player Modal -->
+  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create Player</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="createForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="createName" aria-describedby="nameHelp">
+            </div>
+            <div class="mb-3">
+              <label for="activisionId" class="form-label">Activision Id</label>
+              <input type="text" class="form-control" id="createActivisionId">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="createEmail">
+            </div>
+            <div class="mb-3">
+              <label for="rank" class="form-label">Rank</label><br>
+              <form id="createRadio">
+                <input type="radio" class="rank-radio" id="bronzeRadio" name="rank" value="BRONZE">
+                <label for="bronze">BRONZE</label><br>
+                <input type="radio" class="rank-radio" id="silverRadio" name="rank" value="SILVER">
+                <label for="silver">SILVER</label><br>
+                <input type="radio" class="rank-radio" id="goldRadio" name="rank" value="GOLD">
+                <label for="gold">GOLD</label><br>
+                <input type="radio" class="rank-radio" id="diamondRadio" name="rank" value="DIAMOND">
+                <label for="diamond">DIAMOND</label>
+              </form>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="new" type="button" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <script src="js/app.js"></script>
+</body>
+</html>
