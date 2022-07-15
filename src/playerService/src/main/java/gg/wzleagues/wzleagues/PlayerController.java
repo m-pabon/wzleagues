@@ -108,7 +108,7 @@ public class PlayerController {
     @PostMapping("/players")
     ResponseEntity<?> newPlayer(@RequestBody Player newPlayer) {
 
-        newPlayer.setRank(Rank.BRONZE);
+        //newPlayer.setRank(Rank.BRONZE);
         EntityModel<Player> entityModel = assembler.toModel(repository.save(newPlayer));
 
         return ResponseEntity //
@@ -126,7 +126,13 @@ public class PlayerController {
                 content = @Content) })
     @GetMapping("/players/{id}")
     EntityModel<Player> one(@PathVariable String id) {
-        Player player = repository.findById(id);
+        Player player;
+        if(id.contains(Character.toString('#'))){
+            player = repository.findByActivisionId(id);
+        }
+        else{
+            player = repository.findById(id);
+        }
         if (player == null)
             throw new PlayerNotFoundException(id);
         return assembler.toModel(player);

@@ -8,5 +8,6 @@ interface PlayerRepository extends MongoRepository<Player, Long> {
     Page<Player> findAll(Pageable pageable);
     Player findByName(String name);
     Player findById(String id);
+    Player findByActivisionId(String activisionId);
     void deleteById(String id);
 }

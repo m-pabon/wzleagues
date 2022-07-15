@@ -19,7 +19,7 @@ public class LoadDatabase {
 
             log.info("Preloading " + repository.save(new Player("Michael Pabon", "matricy@outlook.com", "Matricy#1286579", Rank.BRONZE)));
             log.info("Preloading " + repository.save(new Player("Matt Lino", "vector@gmail.com", "Vector#12750", Rank.BRONZE)));
-            log.info("Preloading " + repository.save(new Player("Ryan Mulhearn", "strgr@hotmail.com", "STRNGR3737", Rank.BRONZE)));
+            log.info("Preloading " + repository.save(new Player("Ryan Mulhearn", "strgr@hotmail.com", "STRNGR#3737", Rank.BRONZE)));
 
             // fetch all players
             System.out.println("Players found with findAll():");
