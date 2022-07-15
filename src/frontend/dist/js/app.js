@@ -1,4 +1,4 @@
-const url = 'http://localhost:8080/api/players';
+const url = '/api'
 const GET = 'GET';
 const POST = 'POST';
 const PUT = 'PUT';
