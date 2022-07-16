@@ -1,4 +1,5 @@
-const url = '/api'
+//const url = '/api'
+const url = 'http://wzleagues-env-1.eba-5gspdwtz.us-east-1.elasticbeanstalk.com/api/players'
 const GET = 'GET';
 const POST = 'POST';
 const PUT = 'PUT';
