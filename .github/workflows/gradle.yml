@@ -6,7 +6,7 @@ jobs:
   gradle:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -32,4 +32,4 @@ jobs:
           environment_name: Wzleagues-env-1
           version_label: wzleagues-source-2
           region: us-east-1
-          deployment_package: deploy.zip
+          deployment_package: src/playerService/build/libs/playerService-0.0.1-SNAPSHOT.jar
