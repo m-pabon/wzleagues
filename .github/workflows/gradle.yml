@@ -17,6 +17,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+        env:
+          APP_ENCRYPTION_PASSWORD: ${{ APP_ENCRYPTION_PASSWORD }}
 
       - name: Execute Gradle build
-        run: APP_ENCRYPTION_PASSWORD=${{ APP_ENCRYPTION_PASSWORD }} ./gradlew build
+        run: ./gradlew build
