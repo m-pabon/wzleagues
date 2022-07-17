@@ -1,0 +1,36 @@
+name: Beanstalk Deploy
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  gradle:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+          build-root-directory: src/playerService
+        env:
+          APP_ENCRYPTION_PASSWORD: ${{ secrets.APP_ENCRYPTION_PASSWORD }}
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ secrets.EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
+          region: ${{ secrets.REGION }}
+          version_label: ${{ secrets.EB_APPLICATION_NAME }}-${{ github.SHA }}
+          existing_bucket_name: ${{ secrets.EB_BUCKET }}
+          deployment_package: src/playerService/build/libs/playerService-0.0.1-SNAPSHOT.jar
