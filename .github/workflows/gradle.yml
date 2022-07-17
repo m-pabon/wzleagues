@@ -18,7 +18,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          context: ./src/playerService
+          build-root-directory: ./src/playerService
         env:
           APP_ENCRYPTION_PASSWORD: ${{ secrets.APP_ENCRYPTION_PASSWORD }}
 
