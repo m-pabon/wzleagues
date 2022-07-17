@@ -1,7 +1,7 @@
 name: Beanstalk Deploy
 on:
   push:
-    branches: [ "development" ]
+    branches: [ "main" ]
 jobs:
   gradle:
     strategy:
@@ -28,10 +28,9 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: wzleagues
-          environment_name: Wzleagues-env-1
-          region: us-east-1
-          version_label: wzleagues-source-3
-          version_description: ${{github.SHA}}
-          existing_bucket_name: elasticbeanstalk-us-east-1-721998367841
+          application_name: ${{ secrets.EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
+          region: ${{ secrets.REGION }}
+          version_label: ${{ secrets.EB_APPLICATION_NAME }}-${{ github.SHA }}
+          existing_bucket_name: ${{ secrets.EB_BUCKET }}
           deployment_package: src/playerService/build/libs/playerService-0.0.1-SNAPSHOT.jar
