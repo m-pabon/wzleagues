@@ -19,5 +19,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+          build-root-directory: src/playerService
         env:
           APP_ENCRYPTION_PASSWORD: ${{ secrets.APP_ENCRYPTION_PASSWORD }}
