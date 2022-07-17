@@ -1,4 +1,4 @@
-name: Run Gradle on PRs
+name: Beanstalk Deploy
 on:
   push:
     branches: [ "development" ]
@@ -22,3 +22,14 @@ jobs:
           build-root-directory: src/playerService
         env:
           APP_ENCRYPTION_PASSWORD: ${{ secrets.APP_ENCRYPTION_PASSWORD }}
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: wzleagues
+          environment_name: Wzleagues-env-1
+          version_label: wzleagues-source-2
+          region: us-east-1
+          deployment_package: deploy.zip
