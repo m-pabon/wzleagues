@@ -31,5 +31,7 @@ jobs:
           application_name: wzleagues
           environment_name: Wzleagues-env-1
           region: us-east-1
+          version_label: wzleagues-source-3
+          version_description: ${{github.SHA}}
           existing_bucket_name: elasticbeanstalk-us-east-1-721998367841
           deployment_package: src/playerService/build/libs/playerService-0.0.1-SNAPSHOT.jar
