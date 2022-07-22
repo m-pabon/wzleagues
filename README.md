@@ -1,5 +1,10 @@
 # WZ Leagues Project
 
+## Website
+[wzleagues.gg](wzleagues.gg)
+
+## Docs
+
 [Frontend React Client](src/client/README.md) <br>
 [Frontend Theme (raw html/css/js)](src/frontend) <br>
 [Player Service](src/playerService/README.md)
