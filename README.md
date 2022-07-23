@@ -1,8 +1,5 @@
 # WZ Leagues Project
 
-## Website
-[wzleagues.gg](wzleagues.gg)
-
 ## Docs
 
 [Frontend React Client](src/client/README.md) <br>
