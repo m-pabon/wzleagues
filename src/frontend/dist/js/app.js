@@ -1,9 +1,6 @@
 //const url = '/api'
 const url = 'http://wzleagues-env-1.eba-5gspdwtz.us-east-1.elasticbeanstalk.com/api/players'
-const GET = 'GET';
-const POST = 'POST';
-const PUT = 'PUT';
-const DELETE = 'DELETE';
+const http = new HTTP;
 
 // Grab UI Elements
 const table = document.querySelector('table');
@@ -33,35 +30,34 @@ function loadEventListeners() {
   confirmEditBtn.addEventListener('click', editRow);
 }
 
-function getRows(){
-  httpRequest(GET, url, function(data){
-    const tableData = data._embedded.players;
-    tableData.forEach(function(object) {
-        const tr = document.createElement('tr');
-        tr.className = 'player-row';
-        const deleteButton = `
-          <button type="button" class="btn btn-danger btn-sm delete">
-            <span class="fa fa-trash-o fa-sm delete" aria-hidden="true"></span>
-          </button>`
-        const editButton = `
-          <button type="button" class="btn btn-warning btn-sm edit" data-bs-toggle="modal" data-bs-target="#editModal">
-            <span class="fa fa-pencil-square-o fa-sm edit" aria-hidden="true"></span>
-          </button>
-        `
-        const td = `
-          <td>${object.name}</td>
-          <td>${object.activisionId}</td>
-          <td>${object.email}</td>
-          <td>${object.rank}</td>
-          <td><div>${editButton}${deleteButton}</div></td>
-        `;
-        tr.innerHTML = td;
-        tableBody.appendChild(tr);
-    });
+async function getRows(){
+  const tableData = await http.get(url)
+  const players = tableData._embedded.players;
+  players.forEach(object => {
+    const tr = document.createElement('tr');
+    tr.className = 'player-row';
+    const deleteButton = `
+      <button type="button" class="btn btn-danger btn-sm delete">
+        <span class="fa fa-trash-o fa-sm delete" aria-hidden="true"></span>
+      </button>`
+    const editButton = `
+      <button type="button" class="btn btn-warning btn-sm edit" data-bs-toggle="modal" data-bs-target="#editModal">
+        <span class="fa fa-pencil-square-o fa-sm edit" aria-hidden="true"></span>
+      </button>
+    `
+    const td = `
+      <td>${object.name}</td>
+      <td>${object.activisionId}</td>
+      <td>${object.email}</td>
+      <td>${object.rank}</td>
+      <td><div>${editButton}${deleteButton}</div></td>
+    `;
+    tr.innerHTML = td;
+    tableBody.appendChild(tr);
   });
 }
 
-function addRow(){
+async function addRow(){
   const name = document.querySelector('#createName').value;
   const activisionId = document.querySelector('#createActivisionId').value;
   const email = document.querySelector('#createEmail').value;
@@ -72,10 +68,9 @@ function addRow(){
     activisionId: activisionId,
     rank: rank
   }
-  const data = JSON.stringify(player);
-  httpRequest(POST, url, function(res){
-    refreshRows();
-  }, data);
+  http.post(url,player)
+    .then(data => refreshRows())
+    .catch(err => console.log(err));
 }
 
 function refreshRows(){
@@ -85,7 +80,7 @@ function refreshRows(){
   getRows();
 }
 
-function removeOrEditRow(e){
+async function removeOrEditRow(e){
   const tds = e.target.closest('.player-row').children;
   //Delete Player
   if(e.target.classList.contains('delete')){
@@ -96,12 +91,11 @@ function removeOrEditRow(e){
     let mongoId;
     const urlEncodedActivisionId = activisionId.replace('#', '%23');
     const endpoint = url + `/${urlEncodedActivisionId}`;
-    httpRequest(GET, endpoint, function(data){
-      mongoId = data.id;
-      httpRequest(DELETE, (url + `/${mongoId}`), function(data){
-        refreshRows();
-      });
-    });
+    const response = await http.get(endpoint);
+    mongoId = response.id;
+    http.delete(url + `/${mongoId}`)
+      .then(data => refreshRows())
+      .catch(err => console.log(err));
   }
   //Edit player modal will spawn. Additional Confirmation needed to edit player
   else{
@@ -114,7 +108,7 @@ function removeOrEditRow(e){
 }
 
 //Runs after confirming an edited player
-function editRow(){
+async function editRow(){
   //Get the value of the edit modal prior to closing
   const name = document.querySelector('#editName').value;
   const activisionId = document.querySelector('#editActivisionId').value;
@@ -125,20 +119,17 @@ function editRow(){
   let mongoId;
   const urlEncodedActivisionId = activisionId.replace('#', '%23');
   const endpoint = url + `/${urlEncodedActivisionId}`;
-  httpRequest(GET, endpoint, function(data){
-    mongoId = data.id;
-    //HTTP PUT player to edit their data
-    const player = {
-      name: name,
-      email: email,
-      activisionId: activisionId,
-      rank: rank
-    }
-    const playerInfo = JSON.stringify(player);
-    httpRequest(PUT, (url + `/${mongoId}`), function(data){
-      refreshRows();
-    }, playerInfo);
-  });
+  const player = {
+    name: name,
+    email: email,
+    activisionId: activisionId,
+    rank: rank
+  }
+  const response = await http.get(endpoint);
+  mongoId = response.id;
+  http.put(url + `/${mongoId}`, player)
+    .then(data => refreshRows())
+    .catch(err => console.log(err));
 }
 
 function radioCheck(rank){
@@ -153,28 +144,5 @@ function radioCheck(rank){
   }
   else{
     document.querySelector('#editDiamondRadio').checked = true;
-  }
-}
-
-
-function httpRequest(method, url, fn, body){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function(){
-    if(this.readyState == 4 && (this.status == 200 || this.status == 201)){
-      if(this.responseText){
-        fn(JSON.parse(this.responseText));
-      }
-      else{
-        fn('');
-      }
-    }
-  }
-  xhttp.open(method, url);
-  xhttp.setRequestHeader("Content-type", "application/json");
-  if(body){
-    xhttp.send(body);
-  }
-  else{
-    xhttp.send();
   }
 }
