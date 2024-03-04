@@ -11,4 +11,4 @@ Correct app encryption password required to run locally
  - Run backend server using `APP_ENCRYPTION_PASSWORD=$APP_ENCRYPTION_PASSWORD ./gradlew bootRun` in `src/playerService`
 
 ## Demo
-![](src/frontend/dist/img/WzLeagues.gif)
+![](src/frontend/dist/img/wzLeagues.gif)
