@@ -1,5 +1,4 @@
-//const url = '/api'
-const url = 'http://wzleagues-env-1.eba-5gspdwtz.us-east-1.elasticbeanstalk.com/api/players'
+const url = window.location.hostname === 'localhost' ? 'http://localhost:8080/api/players' : 'http://wzleagues-env-1.eba-5gspdwtz.us-east-1.elasticbeanstalk.com/api/players';
 const http = new HTTP;
 
 // Grab UI Elements

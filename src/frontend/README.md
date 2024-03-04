@@ -1,6 +1,5 @@
 # Frontend Template
 This is the static html, css, js theme for the frontend that performs CRUD operations against the player service.<br>
-The plan is to port this to a react application.
 
 ## Nginx
 The docker image uses nginx to serve the web content and contains a reverse proxy so that when http requests are <br>
