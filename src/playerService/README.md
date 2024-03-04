@@ -33,9 +33,6 @@ You need to set the following environment variables with their correct values in
 
 ## Documentation
 
-### Github Pages
-[http://m-pabon.github.io/wzleagues](http://m-pabon.github.io/wzleagues)
-
 ### OpenAPI JSON spec
 [http://localhost:8080/api/v3/api-docs/](http://localhost:8080/api/v3/api-docs/)
 
